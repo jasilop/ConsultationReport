@@ -1,0 +1,44 @@
+name: python project
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install Dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+  deploy:
+    needs: [Build]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Login and deploy node app
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.SSH_HOST_FFPROD }}
+        username: ${{ secrets.SSH_USERNAME_PROD }}
+        password: ${{ secrets.SSH_KEY_PROD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /root/ConsultationReport
+          git pull origin main
+          source venv/bin/activate
+          pip install -r requirements.txt
+          python manage.py migrate
+          sudo systemctl restart django
