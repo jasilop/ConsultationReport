@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+BASE_URL = "http://91.108.104.228"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-af#fjht#7-v%&+=w-4td1a@38z1bivg=_pd-$c$d42w-45#m%f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['91.108.104.228']
+ALLOWED_HOSTS = ['91.108.104.228', '127.0.0.1']
 
 
 # Application definition

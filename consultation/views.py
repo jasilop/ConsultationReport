@@ -11,6 +11,7 @@ from reportlab.pdfgen import canvas
 from django.utils import timezone
 import socket
 from io import BytesIO
+from django.conf import settings
 
 def generate_pdf_view(request):
     if request.method == "POST":
@@ -19,7 +20,8 @@ def generate_pdf_view(request):
             patient_last_name = request.POST.get('patient_last_name')
             patient_first_name = request.POST.get('patient_first_name')
             patient_dob = request.POST.get('patient_dob')
-            logo_path = "http://127.0.0.1:8000/media/clinic_logos/mrf-logo-1946-present-scaled.webp" 
+            
+            logo_path = settings.BASE_URL+':8000'+"/media/clinic_logos/mrf-logo-1946-present-scaled.webp" 
             clinic_name = request.POST.get('clinic_name')
             consultation_note= request.POST.get('consultation_note')
             chief_complaint = request.POST.get('chief_complaint')
