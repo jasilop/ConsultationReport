@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Consultation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group img {
+            max-width: 100px;
+            margin-top: 5px;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .center-btn {
+            display: block;
+            margin: 20px auto;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .center-btn:hover {
+            background-color: #45a049;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+
+    <form action="{% url 'generate_pdf' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group" style="display: flex; align-items: center;">
+            <div style="flex: 0 0 48%; padding-right: 10px; box-sizing: border-box;">
+                <label for="clinic_name">Clinic Name:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="text" id="clinic_name" name="clinic_name" style="width: 100%; box-sizing: border-box;" required>
+            </div>
+        
+            <div style="flex: 0 0 48%; box-sizing: border-box;">
+                <label for="clinic_logo">Clinic Logo:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="file" id="clinic_logo" name="clinic_logo" accept="clinic_logos/*" style="width: 100%; box-sizing: border-box;" required>
+                <img id="logo_preview" src="#" alt="Clinic Logo Preview" style="display:none;">
+            </div>
+        </div>
+        
+        <div class="form-group" style="display: flex; align-items: center;">
+            <div style="flex: 0 0 48%; padding-right: 10px; box-sizing: border-box;">
+                <label for="physician_name">Physician Name:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="text" id="physician_name" name="physician_name" style="width: 100%; box-sizing: border-box;" required>
+            </div>
+        
+            <div style="flex: 0 0 48%; box-sizing: border-box;">
+                <label for="physician_contact">Physician Contact:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="text" id="physician_contact" name="physician_contact" style="width: 100%; box-sizing: border-box;" required>
+            </div>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center;">
+            <div style="flex: 0 0 48%; padding-right: 10px; box-sizing: border-box;">
+                <label for="patient_last_name">Patient First Name:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="text" id="patient_first_name" name="patient_first_name" style="width: 100%; box-sizing: border-box;" required>
+            </div>
+            <div style="flex: 0 0 48%; box-sizing: border-box;">
+                <label for="patient_last_name">Patient Last Name:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="text" id="patient_last_name" name="patient_last_name" style="width: 100%; box-sizing: border-box;" required>
+            </div>
+        </div>
+
+
+        <div class="form-group" style="display: flex; align-items: center;">
+
+            <div style="flex: 0 0 48%; padding-right: 10px; box-sizing: border-box;">
+                <label for="patient_dob">Patient Date of Birth:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="date" id="patient_dob" name="patient_dob" style="width: 100%; box-sizing: border-box;" required>
+            </div>
+
+            <div style="flex: 0 0 48%; box-sizing: border-box;">
+                <label for="patient_contact">Patient Contact:</label>
+                <span style="color: rgb(191, 73, 73);">required*</span>
+                <input type="text" id="patient_contact" name="patient_contact" style="width: 100%; box-sizing: border-box;" required>
+            </div>
+        </div>
+
+        <div class="form-group" style="position: relative;">
+            <label for="chief_complaint">Chief Complaint:</label>
+            <span style="color: rgb(191, 73, 73);">required*</span>
+            <textarea id="chief_complaint" name="chief_complaint" required maxlength="5000" style="width: 100%;"></textarea>
+            <small style="position: absolute; right: 10px; bottom: 10px; font-size: 12px; color: #555;">
+                Max 5000 characters allowed
+            </small>
+        </div>
+        
+        <div class="form-group" style="position: relative;">
+            <label for="consultation_note">Consultation Note:</label>
+            <span style="color: rgb(191, 73, 73);">required*</span>
+            <textarea id="consultation_note" name="consultation_note" required maxlength="5000" style="width: 100%;"></textarea>
+            <small style="position: absolute; right: 10px; bottom: 10px; font-size: 12px; color: #555;">
+                Max 5000 characters allowed
+            </small>
+        </div>
+        
+
+        <button type="submit" class="center-btn">Generate Report</button>
+    </form>
+
+     <!-- Modal for displaying errors -->
+     <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Form Errors</h3>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li>{{ field }}: {{ errors|striptags }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+{% if form.errors %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Show the modal
+        var modal = document.getElementById("errorModal");
+        if (modal) {
+            modal.style.display = "block";
+        
+            // Close the modal when the user clicks on <span> (x)
+            var span = document.getElementsByClassName("close")[0];
+            if (span) {
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Close the modal when the user clicks anywhere outside of the modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
